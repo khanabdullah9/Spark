@@ -1,0 +1,47 @@
+﻿@model Spark.ViewModels.AssignClaimViewModel
+
+@{
+    ViewBag.Title = "Assign Claim";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form method="post">
+        <div class="card">
+            <div class="card-header"><h3>Assign Claim</h3></div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control"/>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Claim"></label>
+                            <select asp-for="claim" asp-items="Model.Claim"></select>
+                            <span asp-validation-for="Claim" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <hr>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                       <center><button type="submit" class="btn btn-primary" style="width:90%">Assing</button></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

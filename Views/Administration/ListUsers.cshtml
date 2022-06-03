@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Spark.Data
+@inject UserManager<ApplicationUser> userManager;
+@model IEnumerable<ApplicationUser>;
+
+@{
+    ViewBag.Title = "User's List";
+}
+
+<div class="row">
+    <div class="col">
+        <table class="table table-success table-striped-columns">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var m in Model)
+                {
+                    <tr>
+                        <td>@m.FirstName</td>
+                        <td>@m.LastName</td>
+                        <td>@m.Email</td>
+                        <td>@m.City</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
