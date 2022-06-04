@@ -1,0 +1,59 @@
+﻿@model Spark.ViewModels.ViewProductViewModel
+
+@{
+    ViewBag.Title = "View Product";
+    var image = "~/images/"+Model.product_image_path;
+}
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <form method="post">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="@image" alt="No image" asp-append-version="true" width="400px" height="450px"  class="img-fluid"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col">
+                                        <b><h1>@Model.ProductName</h1></b>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h5>₹@Model.Price</h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>@Model.Developer</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>@Model.Publisher</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>@Model.ProductDescription</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-primary" style="width:100%">Add To Cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

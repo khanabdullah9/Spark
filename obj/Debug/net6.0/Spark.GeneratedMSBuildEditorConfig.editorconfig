@@ -27,12 +27,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Administration/AddProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cQWRkUHJvZHVjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Administration/AssignClaim.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cQXNzaWduQ2xhaW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Administration/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Administration/ListProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYXRpb25cTGlzdFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Administration/ListUsers.cshtml]
@@ -47,12 +55,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/NotFound.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTm90Rm91bmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Shop/Shop.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxTaG9wLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/Shop/ViewProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hvcFxWaWV3UHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Abdullah Khan/source/repos/Spark/Spark/Views/_ViewImports.cshtml]

@@ -36,6 +36,7 @@ namespace Spark.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserRegisterViewModel model) 
         {
             if (ModelState.IsValid) 
@@ -85,6 +86,7 @@ namespace Spark.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(UserLoginViewModel model) 
         {
             if (ModelState.IsValid) 

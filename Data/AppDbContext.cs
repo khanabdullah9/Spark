@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Spark.Models;
 
 namespace Spark.Data
 {
@@ -9,5 +10,6 @@ namespace Spark.Data
         {
 
         }
+        public DbSet<Product> products { get; set; }
     }
 }

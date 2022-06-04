@@ -1,0 +1,96 @@
+﻿@model Spark.ViewModels.AddProductViewModel
+
+@{
+    ViewBag.Title = "Add Product";
+}
+
+<div class="row">
+    <div class="col">
+        <form enctype="multipart/form-data" method="post">
+        <div class="card">
+            <div class="card-header">
+                <h3>Add a product in the database</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ProductName"></label>
+                            <input asp-for="ProductName" class="form-control" />
+                            <span asp-validation-for="ProductName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Genre"></label>
+                            <input asp-for="Genre" class="form-control" />
+                            <span asp-validation-for="Genre" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="ProductDescription"></label>
+                            <textarea asp-for="ProductDescription" class="form-control" ></textarea>
+                            <span asp-validation-for="ProductDescription" class="text-danger"></span>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Quantity"></label>
+                            <input asp-for="Quantity" class="form-control" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Price"></label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Publisher"></label>
+                            <input asp-for="Publisher" class="form-control" />
+                            <span asp-validation-for="Publisher" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Developer"></label>
+                            <input asp-for="Developer" class="form-control" />
+                            <span asp-validation-for="Developer" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label asp-for="ProductImage"></label>
+                         <div class="custom-file">
+                        <input asp-for="ProductImage" class="form-control custom-file-input" style="display:inline"/>
+                        </div>
+                        <label class="custom-file-label">Choose File....</label>
+                        <span asp-validation-for="ProductImage" class="text-danger"></span>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col">
+                       <hr />
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col">
+                      <center><button type="submit" class="btn btn-primary" style="width:90%">Add</button></center>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

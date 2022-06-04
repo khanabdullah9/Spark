@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spark.Data;
 using Spark.Models;
 using System.Diagnostics;
 
@@ -7,15 +8,18 @@ namespace Spark.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,AppDbContext context)
         {
             _logger = logger;
+            this.context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var allproducts = context.products;
+            return View(allproducts);
         }
 
         public IActionResult Privacy()

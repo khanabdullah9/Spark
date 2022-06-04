@@ -5,6 +5,7 @@ using Spark.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Spark.Models;
 
 namespace Spark.Controllers
 {
@@ -13,10 +14,14 @@ namespace Spark.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
-        public AdministrationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager) 
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment;
+        private readonly AppDbContext context;
+        public AdministrationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment,AppDbContext context) 
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
+            this.hostingEnvironment = hostingEnvironment;
+            this.context = context;
         }
         public IActionResult Index()
         {
@@ -43,6 +48,7 @@ namespace Spark.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignClaim(AssignClaimViewModel model) 
         {
             if (ModelState.IsValid) 
@@ -75,6 +81,53 @@ namespace Spark.Controllers
                 }    
             }
             return View(model);
-        } 
+        }
+
+        [HttpGet]
+        public IActionResult AddProduct() 
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddProduct(AddProductViewModel model) 
+        {
+            if (ModelState.IsValid) 
+            {
+                string uniqueFileName = null;
+                if (model.ProductImage!=null) 
+                {
+                    string uploadFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+                    uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProductImage.FileName;
+                    string filePath = Path.Combine(uploadFolder, uniqueFileName);
+                    model.ProductImage.CopyTo(new FileStream(filePath, FileMode.Create));
+                }
+                string custom_id = Guid.NewGuid().ToString();
+                Product product = new Product() 
+                {
+                    ProductId = custom_id,
+                    ProductName = model.ProductName,
+                    Genre = model.Genre,
+                    Description = model.ProductDescription,
+                    Publisher = model.Publisher,
+                    Developer = model.Developer,
+                    Quantity = model.Quantity,
+                    Price = model.Price,
+                    product_image_path = uniqueFileName,
+                };
+                context.products.Add(product);
+                context.SaveChanges();
+                return RedirectToAction("index","administration");
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult ListProduct() 
+        {
+            var allproducts = context.products;
+            return View(allproducts);
+        }
     }
 }

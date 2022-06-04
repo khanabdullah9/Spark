@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewBag.Title = "Product List";
+}
+
+<div class="row">
+    <div>
+        <table class="table table-success table-striped-columns">
+            <thead>
+                <tr>
+                <th>Name</th>
+                 <th>Genre</th>
+                 <th>Developer</th>
+                 <th>Publisher</th>
+                 <th>Quantity</th>
+                 <th>Price</th>
+                 <th></th>
+            </tr>
+            </thead>
+            <tbody>                
+                @foreach(var m in Model)
+                {
+                    var image = "~/images/" + m.product_image_path;
+                    <tr>                    
+                    <td>@m.ProductName</td>
+                    <td>@m.Genre</td>
+                     <td>@m.Developer</td>
+                     <td>@m.Publisher</td>
+                     <td>@m.Quantity</td>
+                     <td>@m.Price</td>
+                     <td><img src="@image" alt="No image" asp-append-version="true" width="60px" /></td>
+                </tr>
+                }
+            </tbody>            
+        </table>
+    </div>
+</div>

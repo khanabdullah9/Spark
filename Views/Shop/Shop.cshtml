@@ -1,17 +1,11 @@
 ﻿@model IEnumerable<Product>
 
-@{
-    ViewData["Title"] = "Home Page";
-}
+    @{
+        ViewBag.Title = "Shop";
+    }
 
 <div class="row">
     <div class="col">
-        <div class="row">
-            <div class="col">
-                <center><img src="~/images/banner.jpg" alt="No image" width="70%"/></center>
-            </div>
-        </div>
-        <br />
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <div class="card">
@@ -45,7 +39,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <a asp-action="#" asp-controller="#" class="btn btn-outline-primary">Add To Cart</a>
+                                                <a asp-action="viewproduct" asp-controller="shop" asp-route-id="@m.ProductId" class="btn btn-outline-primary">View</a>
                                             </div>
                                         </div>
                                     </div>
