@@ -2,6 +2,7 @@
 {
     public class ViewProductViewModel
     {
+        public string ID { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public string Genre { get; set; }

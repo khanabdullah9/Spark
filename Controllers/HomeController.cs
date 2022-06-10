@@ -2,6 +2,7 @@
 using Spark.Data;
 using Spark.Models;
 using System.Diagnostics;
+using System.Web;
 
 namespace Spark.Controllers
 {
@@ -18,8 +19,11 @@ namespace Spark.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("init", "INIT");
+            ViewData["sessionId"] = HttpContext.Session.Id;
             var allproducts = context.products;
-            return View(allproducts);
+            var filteredproducts = allproducts.Where(p => p.isCartItem.Equals(false)).Select(p=>p);
+            return View(filteredproducts);
         }
 
         public IActionResult Privacy()
@@ -31,6 +35,12 @@ namespace Spark.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [HttpGet]
+        public IActionResult NotFound() 
+        {
+            ViewData["sessionId"] = HttpContext.Session.Id;
+            return View();
         }
     }
 }

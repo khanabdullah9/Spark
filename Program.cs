@@ -22,6 +22,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+builder.Services.AddSession();//Adding sessions functionality
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -35,7 +36,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseRouting();
-
+app.UseSession();//Adding session functionality
 app.UseAuthorization();
 
 app.MapControllerRoute(

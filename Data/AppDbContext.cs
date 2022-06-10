@@ -11,5 +11,7 @@ namespace Spark.Data
 
         }
         public DbSet<Product> products { get; set; }
+        public DbSet<Cart> carts { get; set; }
+        public DbSet<CartItem> cartItems { get; set; }
     }
 }

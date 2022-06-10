@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Ckm1mqAjQaEyykpqzCGzGJ0AnSAwevKnJOTqaFEglSg=",
+  "Hash": "Z/xkrc8lSKcuzWCmoddgt6i2sjRSPlsvpH4CJKouYgY=",
   "Source": "Spark",
   "BasePath": "_content/Spark",
   "Mode": "Default",
@@ -85,6 +85,23 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\1444aa6d-bb5d-47b1-8b0c-d84a12cb4aa0_ps5_controller.jpg",
+      "SourceId": "Spark",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\",
+      "BasePath": "_content/Spark",
+      "RelativePath": "images/1444aa6d-bb5d-47b1-8b0c-d84a12cb4aa0_ps5_controller.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\1444aa6d-bb5d-47b1-8b0c-d84a12cb4aa0_ps5_controller.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\1c34f70a-4da6-4b41-8db4-3ab82772f23b_uncharted4.jpg",
       "SourceId": "Spark",
       "SourceType": "Discovered",
@@ -100,6 +117,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\1c34f70a-4da6-4b41-8db4-3ab82772f23b_uncharted4.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\54314d8b-73aa-4c20-88b7-8a7cf1058035_hogwarts_legacy.jpg",
+      "SourceId": "Spark",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\",
+      "BasePath": "_content/Spark",
+      "RelativePath": "images/54314d8b-73aa-4c20-88b7-8a7cf1058035_hogwarts_legacy.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\54314d8b-73aa-4c20-88b7-8a7cf1058035_hogwarts_legacy.jpg"
     },
     {
       "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\a0bcf89b-408a-4623-aa4a-ed2775530018_tlou2.jpg",

@@ -1,9 +1,14 @@
 ﻿@{
     ViewBag.Title = "Not Found";
+    var sessionId = ViewData["sessionId"];
 }
 
 <div class="row">
     <div class="col">
         <h1>The resource you are looking for is not availaible!</h1>
+        @if (sessionId is not null)
+        {
+            <p>@sessionId</p>
+        }
     </div>
 </div>

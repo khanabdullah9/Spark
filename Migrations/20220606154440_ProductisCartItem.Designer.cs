@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Spark.Data;
 
@@ -11,9 +12,10 @@ using Spark.Data;
 namespace Spark.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220606154440_ProductisCartItem")]
+    partial class ProductisCartItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,35 +248,31 @@ namespace Spark.Migrations
 
             modelBuilder.Entity("Spark.Models.Cart", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("CartId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.HasKey("CartId");
 
                     b.ToTable("carts");
                 });
 
             modelBuilder.Entity("Spark.Models.CartItem", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CartId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("productID")
-                        .IsRequired()
+                    b.Property<string>("ProductId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("CartId");
 
-                    b.HasIndex("productID");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("cartItems");
                 });
@@ -383,9 +381,7 @@ namespace Spark.Migrations
 
                     b.HasOne("Spark.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("productID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Cart");
 

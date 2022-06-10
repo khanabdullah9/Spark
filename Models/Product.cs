@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spark.Models
 {
@@ -13,5 +14,6 @@ namespace Spark.Models
         public int Quantity { get; set; }
         public Double Price { get; set; }
         public string product_image_path { get; set; }
+        public bool isCartItem { get; set; } 
     }
 }

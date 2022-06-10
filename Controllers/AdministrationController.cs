@@ -104,7 +104,7 @@ namespace Spark.Controllers
                     model.ProductImage.CopyTo(new FileStream(filePath, FileMode.Create));
                 }
                 string custom_id = Guid.NewGuid().ToString();
-                Product product = new Product() 
+                Product product = new Product()
                 {
                     ProductId = custom_id,
                     ProductName = model.ProductName,
@@ -115,6 +115,7 @@ namespace Spark.Controllers
                     Quantity = model.Quantity,
                     Price = model.Price,
                     product_image_path = uniqueFileName,
+                    isCartItem = false,
                 };
                 context.products.Add(product);
                 context.SaveChanges();
@@ -127,7 +128,8 @@ namespace Spark.Controllers
         public IActionResult ListProduct() 
         {
             var allproducts = context.products;
-            return View(allproducts);
+            var filteredproducts = allproducts.Where(p => p.isCartItem.Equals(false)).Select(p=>p);
+            return View(filteredproducts);
         }
     }
 }

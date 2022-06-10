@@ -2,22 +2,28 @@
 using Spark.Data;
 using Spark.Models;
 using Spark.ViewModels;
+using System.Diagnostics;
+using Spark.Logic;
 
 namespace Spark.Controllers
 {
     public class ShopController : Controller
     {
         private readonly AppDbContext context;
-        public ShopController(AppDbContext context) 
+        private readonly IHttpContextAccessor httpContextAccessor;
+        public ShopController(AppDbContext context, IHttpContextAccessor httpContextAccessor) 
         {
             this.context = context;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public IActionResult Shop()
         {
             var allproducts = context.products;
-            return View(allproducts);
+            var filterproduct = allproducts.Where(p => p.isCartItem.Equals(false)).Select(p=>p);
+            return View(filterproduct);
         }
 
+        //Render the ViewProduct View
         [HttpGet]
         public IActionResult ViewProduct(string id) 
         {
@@ -32,10 +38,11 @@ namespace Spark.Controllers
             }
             if (product==null) 
             {
-                return View("NotFound");
+                return RedirectToAction("notfound","home");
             }
-            var model = new ViewProductViewModel() 
+            var model = new ViewProductViewModel()
             {
+                ID = product.ProductId,
                 ProductName = product.ProductName,
                 ProductDescription = product.Description,
                 Price = product.Price,
@@ -47,11 +54,49 @@ namespace Spark.Controllers
             return View(model);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> ViewProduct(ViewProductViewModel model) 
+        public IActionResult ViewProduct(ViewProductViewModel model) 
         {
-            if (ModelState.IsValid) { }
-            return View(model);
+            string ID = HttpContext.Session.Id;
+            string prodID = model.ID;
+            if (prodID is null) { Debug.WriteLine("[DEBUG{ShopController:63}]prodID is null"); }
+            CartActions cartActions = new CartActions(this.context,this.httpContextAccessor);
+            Cart cart = cartActions.GetCart(ID);
+            cartActions.AddToCart(ID,prodID,cart);            
+            return RedirectToAction(actionName: "cart", controllerName: "shop");
+        }
+
+        [HttpGet]
+        public IActionResult Cart()
+        {
+            string ID = HttpContext.Session.Id;
+            CartActions cartActions = new CartActions(this.context, this.httpContextAccessor);
+            List<CartItem> cartItems = cartActions.GetCartItems(ID);
+            List<Product> products = new List<Product>();
+            ViewData["quantity"] = null;
+            if (cartItems is null) { Debug.WriteLine("[DEBUG{ShopController:77}]cartItems is null"); }
+            foreach (var item in cartItems) 
+            {
+                ViewData["quantity"] = item.Quantity;
+                string productId = item.productID;
+                var product_query = context.products.Where(p => p.ProductId == productId).Select(p=>p);
+                Product product = null;
+                foreach (var prod in product_query) 
+                {
+                    product = prod;
+                }
+                if (product is null) { Debug.WriteLine("[DEBUG{ShopController:81}]product is null"); }
+                products.Add(product);
+            }
+            
+            return View(products);
+        }
+
+        [HttpGet]
+        public IActionResult Checkout() 
+        {
+            return View();
         }
     }
 }
