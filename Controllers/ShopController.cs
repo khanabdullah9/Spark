@@ -70,7 +70,9 @@ namespace Spark.Controllers
         [HttpGet]
         public IActionResult Cart()
         {
+            var model = new CartProductViewModel();
             string ID = HttpContext.Session.Id;
+            ViewData["sessionID"] = ID;
             CartActions cartActions = new CartActions(this.context, this.httpContextAccessor);
             List<CartItem> cartItems = cartActions.GetCartItems(ID);
             List<Product> products = new List<Product>();
@@ -85,12 +87,41 @@ namespace Spark.Controllers
                 foreach (var prod in product_query) 
                 {
                     product = prod;
+                    for (int num = 1; num <= prod.Quantity; num++)
+                    {
+                        model.Quantity.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = num.ToString(), Value = num.ToString() });
+                    }
                 }
                 if (product is null) { Debug.WriteLine("[DEBUG{ShopController:81}]product is null"); }
                 products.Add(product);
+                
+            }            
+            model.products = products;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Cart(CartProductViewModel model) 
+        {
+            string ID = HttpContext.Session.Id;
+            ViewData["sessionID"] = ID;
+            CartActions cartActions = new CartActions(this.context, this.httpContextAccessor);
+            List<CartItem> cartItems = cartActions.GetCartItems(ID);
+            List<Product> products = new List<Product>();
+            foreach (var item in cartItems) 
+            {
+                var productId = item.productID;
+                Product product = context.products.Where(c => c.ProductId == productId).Select(c=>c).FirstOrDefault();
+                if (product is null) { Debug.WriteLine("[DEBUG{ShopController:115}]product is null"); }
+                products.Add(product);
             }
-            
-            return View(products);
+            foreach (var prod in products) 
+            {
+                string quantity = Request.Form["{"+prod.ProductId+"}"];
+                if (quantity is null) { Debug.WriteLine("[QUANTITY{ShopController:115}] quantity is null"); }
+                Debug.WriteLine("[QUANTITY{ShopController:115}] quantity of "+prod.ProductName+" is "+quantity);
+            }
+            return RedirectToAction("shop","shop");
         }
 
         [HttpGet]

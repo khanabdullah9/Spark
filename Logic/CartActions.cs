@@ -4,10 +4,11 @@ using System.Diagnostics;
 
 namespace Spark.Logic
 {
-    public class CartActions : IDisposable
+    public class CartActions : IDisposable, ICartActions
     {
         private readonly AppDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private int _cartItemQuantity;
         public CartActions(AppDbContext context , IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
@@ -50,9 +51,10 @@ namespace Spark.Logic
          */
         public void AddToCart(string ID,string prodID,Cart cart) 
         {
-            var product_query = context.products.Where(p => p.ProductId == prodID).Select(p=>p);
+            Debug.WriteLine("[INVOKE{CartAction:54}]AddToCart invoked.....");
+            var product_query = context.products.Where(p => p.ProductId == prodID).Select(p => p);
             Product product = null;
-            foreach (var prod in product_query) 
+            foreach (var prod in product_query)
             {
                 product = prod;
             }
@@ -65,8 +67,7 @@ namespace Spark.Logic
                 Quantity = 1,
                 CartId = ID,//foreign key property
                 Cart = cart,
-            };           
-            //items.Add(cartItem);
+            };
             context.cartItems.Add(cartItem);
             context.SaveChanges();
         }
@@ -82,12 +83,7 @@ namespace Spark.Logic
             {
                 cartItems.Add(item);
             }
-            foreach (var item in cartItems) 
-            {
-                Debug.WriteLine("[PRODUCT{CartAction:82}] ID:"+item.ID);
-                Debug.WriteLine("[PRODUCT{CartAction:83}] CartId:" + item.CartId);
-                Debug.WriteLine("[PRODUCT{CartAction:84}] Product ID:" + item.productID);
-            }
+            foreach (var item in cartItems){Debug.WriteLine("[PRODUCT{CartAction:82}] ID:"+item.ID);Debug.WriteLine("[PRODUCT{CartAction:83}] CartId:" + item.CartId);Debug.WriteLine("[PRODUCT{CartAction:84}] Product ID:" + item.productID);}
             return cartItems;
         }
 
@@ -98,6 +94,61 @@ namespace Spark.Logic
         public double TotalPrice(string ID) 
         {
             throw new NotImplementedException();
+        }
+
+        /*
+         Params: ID -> CartId of the CartItem the product belongs to
+        return the quantity of the Product in the CartItems
+         */
+        public int GetQuantity(string CartId)
+        {
+            var quantity_query = context.cartItems.Where(c => c.CartId == CartId).Select(c => c).FirstOrDefault();
+            int quantity = quantity_query.Quantity;
+            if (quantity_query is null) { Debug.WriteLine("[DEBUG{CartAction:105}]quantity_query is null"); }
+            return quantity;
+        }
+
+        /*
+         Params: ID -> ID of the CartItem
+        Increase the quantity of the CartItem
+         */
+        public void IncrementQuantity(string ID) 
+        {
+            Debug.WriteLine("[INVOKE{CartAction:115}]IncrementQuantity invoked..... with CartItem ID = "+ID);
+            var quantity_query = context.cartItems.Where(c => c.ID == ID).Select(c => c).FirstOrDefault();
+            int quantity = quantity_query.Quantity;
+            quantity = quantity + 1;
+            Debug.WriteLine("[INVOKE{CartAction:119}]quantity updated to " + quantity);
+            if (quantity_query is null) { Debug.WriteLine("[DEBUG{CartAction:118}]quantity_query is null"); }
+            context.SaveChanges();
+        }
+
+        /*
+         Params: ID -> ID of the CartItem
+        Decrement the quantity of the CartItem
+         */
+        public void DecrementQuantity(string ID)
+        {
+            Debug.WriteLine("[INVOKE{CartAction:129}]DecrementQuantity invoked..... with CartItem ID = " + ID);
+            var quantity_query = context.cartItems.Where(c => c.ID == ID).Select(c => c).FirstOrDefault();
+            int quantity = quantity_query.Quantity;
+            quantity = quantity - 1;
+            Debug.WriteLine("[INVOKE{CartAction:134}]quantity updated to " + quantity);
+            if (quantity_query is null) { Debug.WriteLine("[DEBUG{CartAction:118}]quantity_query is null"); }
+            context.SaveChanges();
+        }
+
+
+        /*
+         Params: ID -> ID of the Cart (session ID)
+        prodId -> ID of the product within the CartItem
+        return the CartItem ID
+         */
+        public string GetCartItemID(string ID,string prodID) 
+        {
+            var cartItem_query = context.cartItems.Where(c => c.CartId == ID && c.productID == prodID).Select(c=>c).FirstOrDefault();
+            if (cartItem_query is null) { Debug.WriteLine("[DEBUG{CartAction:144}]cartItem_query is null"); }
+            return cartItem_query.ID;
         }
         public void Dispose()
         {

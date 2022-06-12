@@ -1,9 +1,11 @@
-﻿@model List<Product>
+﻿@model Spark.ViewModels.CartProductViewModel
+@inject Spark.Logic.CartActions cartActions
 
 @{
     ViewBag.Title = "Cart";
     var currentCart = ViewData["currentCart"];
-    
+    var sessionId = ViewData["sessionId"].ToString();
+    var quantity = cartActions.GetQuantity(sessionId);
 }
 @if (currentCart is not null )
 {
@@ -14,17 +16,13 @@
         <div class="row">
             <div class="col-md-8 mx-auto">
                  <div class="row" style="margin-top:25px;">
-                     <form method="post">
         <div class="col-md-8">
             @*each product*@
-                        @if (Model is null)
-                        {
-                            <p>Model is null here</p>                            
-                        }
-                        @for(int i=0;i<=Model.Count()-1;i++)
-                                    {
-                            var image = "~/images/" + Model[i].product_image_path;
-                            <div class="row">
+             <form method="post">
+                                    @foreach(var m in Model.products)
+                                                    {
+                                var image = "~/images/" + m.product_image_path;
+                                <div class="row">
                     <div class="col">
                         <div class="row">
                             <div class="col-md-2">
@@ -33,12 +31,12 @@
                             <div class="col-md-4">
                                 <div class="row">
                                     <div class="col">
-                                        <p class="justify-content-md-start">@Model[i].ProductName</p>
+                                        <p class="justify-content-md-start">@m.ProductName</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <p>₹@Model[i].Price</p>
+                                        <p>₹@m.Price</p>
                                     </div>
                                 </div>
                             </div>
@@ -46,10 +44,14 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                  @*change quantity button*@
-							<div class="input-group">
-                                <button type="submit" class="btn btn-light"> - </button>
-                                <input type="text" class="form-control" value="@Model[i].Quantity" readonly />
-                                <button type="submit" class="btn btn-light"> + </button>
+							<div class="">                    
+                                    @*<input type="text" id="QuantityIn{@m.ProductId}" value="Select">*@
+                                    <select  class="form-control" id="{@m.ProductId}" name="{@m.ProductId}" onchange="ExtractValue()">
+                                        @for(int num=1;num<=@m.Quantity;num++)
+                                        {
+                                            <option value="@num">@num</option>
+                                        }
+                                    </select>
                             </div>
                                     </div>
                                 </div>
@@ -58,21 +60,28 @@
                             <div class="col-md-2">
                                 <div class="row">
                                     <div class="col">
-                                       <button type="submit" class="btn btn-danger" type="button" id="button-minus">Remove</button>
+                                       <button type="submit" class="btn btn-danger" >Remove</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                                 </div>
-                            }                       
+                                }
+                                <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn-primary btn">SUBMIT</button>
+                                    </div>
+                                </div>
+                              </form>
                         @*each product end*@
-            </div>
-            </form>
+
+            </div>          
             <div class="col-md-4">
                <div class="card">
                    <div class="card-body">
                        @*for the total, grand total and tax*@
+                       Bye, universe!
                     </div>
                </div>
             </div>
@@ -80,5 +89,19 @@
     </div>
             </div>
         </div>
-      
+    @section Scripts
+    {
+        <script> 
+            function ExtractValue()
+                    {
+                            $("select").change(function(){
+                        var id = $(this).attr("id");
+                        var _value = document.getElementById(id).value;
+                        document.getElementById("QuantityIn{"+id+"}").value=_value;
+                        console.log(id);
+                         console.log(_value);
+                        });
+                    }
+        </script>
+    }
 </div>

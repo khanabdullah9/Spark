@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Z/xkrc8lSKcuzWCmoddgt6i2sjRSPlsvpH4CJKouYgY=",
+  "Hash": "HOVWqbyQMEm3feLHhaEQc7KrnR1vRgVjC0ASFbi+sPA=",
   "Source": "Spark",
   "BasePath": "_content/Spark",
   "Mode": "Default",
@@ -100,6 +100,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\1444aa6d-bb5d-47b1-8b0c-d84a12cb4aa0_ps5_controller.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\17f3cdcb-aa8e-4df0-baa5-32eeabb909ae_tlou2.jpg",
+      "SourceId": "Spark",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\",
+      "BasePath": "_content/Spark",
+      "RelativePath": "images/17f3cdcb-aa8e-4df0-baa5-32eeabb909ae_tlou2.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\17f3cdcb-aa8e-4df0-baa5-32eeabb909ae_tlou2.jpg"
     },
     {
       "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\images\\1c34f70a-4da6-4b41-8db4-3ab82772f23b_uncharted4.jpg",
@@ -236,6 +253,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\e0ce7ca5-5fc2-4559-aa65-6de7de0312a6_crew 2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\js\\index.js",
+      "SourceId": "Spark",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\",
+      "BasePath": "_content/Spark",
+      "RelativePath": "js/index.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\index.js"
     },
     {
       "Identity": "C:\\Users\\Abdullah Khan\\source\\repos\\Spark\\Spark\\wwwroot\\js\\site.js",
