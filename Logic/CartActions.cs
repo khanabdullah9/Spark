@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Spark.Logic
 {
-    public class CartActions : IDisposable, ICartActions
+    public class CartActions : IDisposable
     {
         private readonly AppDbContext context;
         private readonly IHttpContextAccessor httpContextAccessor;
@@ -16,9 +16,9 @@ namespace Spark.Logic
         }
 
         /*
-         Params: ID -> ID of the cart (cookie session ID)
-        Output: Cart -> return the Cart object
-        Create a new Cart object if the cart does not exist yet.
+         * Params: ID -> ID of the cart (cookie session ID)
+         * Output: Cart -> return the Cart object
+         * Create a new Cart object if the cart does not exist yet.
          */
         public Cart GetCart(string ID) 
         {
@@ -43,11 +43,11 @@ namespace Spark.Logic
         }
 
         /*
-         Params: ID -> ID of the cart (cookie session ID)
-        prodID -> ID of the product to be added
-        cart -> Cart to add product to
-        Output: bool -> whether the product has been added or not
-        Create a new Cart object if the cart does not exist yet.
+         * Params: ID -> ID of the cart (cookie session ID)
+         * prodID -> ID of the product to be added
+         * cart -> Cart to add product to
+         * Output: bool -> whether the product has been added or not
+         * Create a new Cart object if the cart does not exist yet.
          */
         public void AddToCart(string ID,string prodID,Cart cart) 
         {
@@ -58,7 +58,7 @@ namespace Spark.Logic
             {
                 product = prod;
             }
-            if (product is null) { Debug.WriteLine("[DEBUG{CartActions:39}]product is null"); }
+            if (product is null) { Debug.WriteLine("[DEBUG{CartActions:39}]product is null"); }           
             CartItem cartItem = new CartItem()
             {
                 ID = Guid.NewGuid().ToString(),
@@ -68,12 +68,16 @@ namespace Spark.Logic
                 CartId = ID,//foreign key property
                 Cart = cart,
             };
-            context.cartItems.Add(cartItem);
-            context.SaveChanges();
+            var oldCartItem = context.cartItems.Where(c => c.CartId == ID && c.productID == prodID).Select(c => c).FirstOrDefault();
+            if (oldCartItem is null) //If this is a fresh CartItem
+            {
+                context.cartItems.Add(cartItem);
+                context.SaveChanges();
+            }
         }
 
         /*
-         Params: ID -> ID of the cart
+         * Params: ID -> ID of the cart
          */
         public List<CartItem> GetCartItems(string ID) 
         {
@@ -88,29 +92,39 @@ namespace Spark.Logic
         }
 
         /*
-         Params: ID
-        return the total price of the cart
+         * Params: ID -> ID the Cart
+         * return the total price of the cart
          */
-        public double TotalPrice(string ID) 
+        public double GetTotal(string ID) 
         {
-            throw new NotImplementedException();
+            double totalPrice = 0;
+            var query = context.cartItems.Where(c => c.CartId == ID).Select(c=>c);
+            foreach (var each in query) 
+            {
+                totalPrice += each.Product.Price * each.Quantity;
+            }
+            return totalPrice;
         }
 
         /*
-         Params: ID -> CartId of the CartItem the product belongs to
-        return the quantity of the Product in the CartItems
+         * Params: ID -> CartId of the CartItem the product belongs to a.k.a sessionID
+         * return the quantity of the Product in the CartItems
          */
-        public int GetQuantity(string CartId)
+        public Dictionary<string, double> GetQuantity(string CartId)
         {
-            var quantity_query = context.cartItems.Where(c => c.CartId == CartId).Select(c => c).FirstOrDefault();
-            int quantity = quantity_query.Quantity;
+            var quantity_query = context.cartItems.Where(c => c.CartId == CartId).Select(c => c);
+            Dictionary<string,double> productsAndQuantities = new Dictionary<string, double>();
+            foreach (var item in quantity_query) 
+            {
+                productsAndQuantities.Add(item.Product.ProductName,item.Product.Price*item.Quantity);
+            }
             if (quantity_query is null) { Debug.WriteLine("[DEBUG{CartAction:105}]quantity_query is null"); }
-            return quantity;
+            return productsAndQuantities;
         }
 
         /*
-         Params: ID -> ID of the CartItem
-        Increase the quantity of the CartItem
+         * Params: ID -> ID of the CartItem
+         * Increase the quantity of the CartItem
          */
         public void IncrementQuantity(string ID) 
         {
@@ -124,8 +138,8 @@ namespace Spark.Logic
         }
 
         /*
-         Params: ID -> ID of the CartItem
-        Decrement the quantity of the CartItem
+         * Params: ID -> ID of the CartItem
+         * Decrement the quantity of the CartItem
          */
         public void DecrementQuantity(string ID)
         {
@@ -140,15 +154,27 @@ namespace Spark.Logic
 
 
         /*
-         Params: ID -> ID of the Cart (session ID)
-        prodId -> ID of the product within the CartItem
-        return the CartItem ID
+         * Params: ID -> ID of the Cart (session ID)
+         * prodId -> ID of the product within the CartItem
+         * return the CartItem ID
          */
         public string GetCartItemID(string ID,string prodID) 
         {
             var cartItem_query = context.cartItems.Where(c => c.CartId == ID && c.productID == prodID).Select(c=>c).FirstOrDefault();
             if (cartItem_query is null) { Debug.WriteLine("[DEBUG{CartAction:144}]cartItem_query is null"); }
             return cartItem_query.ID;
+        }
+
+        /*
+         * params: ID -> ID of the cart
+         * prodID -> ID of the product in the CartItem
+         Remove a cart item from the cart
+         */
+        public void Remove(string ID,string prodID) 
+        {
+            var cartItem = context.cartItems.Where(c => c.CartId == ID && c.productID == prodID).Select(c=>c).FirstOrDefault();
+            context.cartItems.Remove(cartItem);
+            context.SaveChanges();
         }
         public void Dispose()
         {

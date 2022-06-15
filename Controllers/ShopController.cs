@@ -100,30 +100,38 @@ namespace Spark.Controllers
             return View(model);
         }
 
+        /*
+        params: prodID -> ID of the product in the CartItem
+       quantity -> quantity of the product
+        */
         [HttpPost]
-        public IActionResult Cart(CartProductViewModel model) 
+        public IActionResult UpdateQuantity() 
         {
-            string ID = HttpContext.Session.Id;
-            ViewData["sessionID"] = ID;
-            CartActions cartActions = new CartActions(this.context, this.httpContextAccessor);
-            List<CartItem> cartItems = cartActions.GetCartItems(ID);
-            List<Product> products = new List<Product>();
-            foreach (var item in cartItems) 
-            {
-                var productId = item.productID;
-                Product product = context.products.Where(c => c.ProductId == productId).Select(c=>c).FirstOrDefault();
-                if (product is null) { Debug.WriteLine("[DEBUG{ShopController:115}]product is null"); }
-                products.Add(product);
-            }
-            foreach (var prod in products) 
-            {
-                string quantity = Request.Form["{"+prod.ProductId+"}"];
-                if (quantity is null) { Debug.WriteLine("[QUANTITY{ShopController:115}] quantity is null"); }
-                Debug.WriteLine("[QUANTITY{ShopController:115}] quantity of "+prod.ProductName+" is "+quantity);
-            }
-            return RedirectToAction("shop","shop");
+            Debug.WriteLine("[DEBUG{ShopController:155}] UpdateQuantity() invoked...");
+            var sessionID = HttpContext.Session.Id;
+            var cart = context.carts.Where(c => c.ID == sessionID).Select(c => c).FirstOrDefault();
+            if (cart is null) { Debug.WriteLine("[DEBUG{ShopController:157}] Cart is null"); }
+            var productID = HttpContext.Request.Form["ProductIn"].ToString();
+            var cartItem = context.cartItems.Where(c => c.CartId == sessionID && c.productID == productID).Select(c => c).FirstOrDefault();
+            if (cartItem is null) { Debug.WriteLine("[DEBUG{ShopController:157}] CartItem is null"); }
+            var form_request = HttpContext.Request.Form["QuantityBtn"];
+            Debug.WriteLine("[form_request{ShopController:162}] " + form_request+" for "+cartItem.ID);
+            int quantity = int.Parse(form_request);
+            cartItem.Quantity = quantity;
+            context.SaveChanges();
+            return RedirectToAction("cart", "shop");
         }
 
+        [HttpPost]
+        public IActionResult Remove() 
+        {
+            var ID = HttpContext.Request.Form["CartID"];
+            var prodID = HttpContext.Request.Form["ProductID"];
+            CartActions cartActions = new CartActions(this.context,this.httpContextAccessor);
+            cartActions.Remove(ID,prodID);
+            return RedirectToAction("cart","shop");
+            Debug.WriteLine("[DEBUG{CartAction:134}]cartItem has been removed");
+        }
         [HttpGet]
         public IActionResult Checkout() 
         {

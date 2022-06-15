@@ -3,13 +3,6 @@
 
 @{
     ViewBag.Title = "Cart";
-    var currentCart = ViewData["currentCart"];
-    var sessionId = ViewData["sessionId"].ToString();
-    var quantity = cartActions.GetQuantity(sessionId);
-}
-@if (currentCart is not null )
-{
-    <p>@currentCart</p>
 }
 <div class="row" >
     <div class="col">
@@ -18,7 +11,6 @@
                  <div class="row" style="margin-top:25px;">
         <div class="col-md-8">
             @*each product*@
-             <form method="post">
                                     @foreach(var m in Model.products)
                                                     {
                                 var image = "~/images/" + m.product_image_path;
@@ -41,26 +33,38 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="row">
-                                    <div class="col-md-8">
                                  @*change quantity button*@
-							<div class="">                    
-                                    @*<input type="text" id="QuantityIn{@m.ProductId}" value="Select">*@
-                                    <select  class="form-control" id="{@m.ProductId}" name="{@m.ProductId}" onchange="ExtractValue()">
-                                        @for(int num=1;num<=@m.Quantity;num++)
-                                        {
-                                            <option value="@num">@num</option>
-                                        }
-                                    </select>
-                            </div>
-                                    </div>
-                                </div>
+                                     <div class="row">
+                                            <div class="col">
+                                                <div class="btn-group">
+                                                  <button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Quantity
+                                                  </button>
+                                                  <ul class="dropdown-menu">
+                                                      @for(int num = 1; num <= @m.Quantity; num++)
+                                                      {     
+                                                          <form method="post" asp-action="updatequantity" asp-controller="shop">
+                                                              <input type="text" name="ProductIn" id="ProductIn" value="@m.ProductId"/ hidden>
+                                                         <li> <input type="submit" class="dropdown-item" id="QuantityBtn" name="QuantityBtn" value="@num" /> </li>                                           
+                                                        </form>                                                      
+                                                      }
+                                                  </ul>
+                                                </div>
+                                            </div>
+                                        </div>
                                 <br />       
                             </div>
                             <div class="col-md-2">
                                 <div class="row">
                                     <div class="col">
-                                       <button type="submit" class="btn btn-danger" >Remove</button>
+                                        @{
+                                            var CartID = ViewData["sessionID"].ToString();
+                                        }                                        
+                                        <form method="post" asp-action="remove" asp-controller="shop">
+                                        <input type="text" id="CartID" name="CartID" value="@CartID" hidden/>
+                                        <input type="text" id="ProductID" name="ProductID" value="@m.ProductId" hidden/>
+                                       <button type="submit" class="btn btn-outline-danger">Remove</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -68,20 +72,60 @@
                     </div>
                                 </div>
                                 }
-                                <div class="row">
-                                    <div class="col">
-                                        <button type="submit" class="btn-primary btn">SUBMIT</button>
-                                    </div>
-                                </div>
-                              </form>
                         @*each product end*@
-
+                        <div class="row"><div class="col"><br /></div></div>
+                        <div class="row">
+                            <div class="col">
+                                <center><a asp-action="shop" asp-controller="shop" class="btn btn-outline-primary" style="width:90%">Continue shopping!</a></center>
+                            </div>
+                        </div>
             </div>          
             <div class="col-md-4">
                <div class="card">
                    <div class="card-body">
                        @*for the total, grand total and tax*@
-                       Bye, universe!
+                                @{
+                                    var sessionID = ViewData["sessionID"].ToString();
+                                    var productsAndQuantites = cartActions.GetQuantity(sessionID);
+                                    var totalPrice = cartActions.GetTotal(sessionID);
+                                }
+                                <div class="row">
+                                    <div class="col">                                  
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (productsAndQuantites is not null)
+                                        {
+                                            @foreach (var item in productsAndQuantites)
+                                            {
+                                                <tr>
+                                                    <td>@item.Key</td>
+                                                    <td>₹@item.Value</td>
+                                                </tr>
+                                            }
+                                        } 
+                                        else
+                                        {
+                                               <p>Have a good day of shopping!</p>
+                                        }
+                                        <tr>
+                                            <td><b>Grand Total</b></td>
+                                            <td><b>₹@totalPrice</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                 </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <center><button type="submit" class="btn btn-primary" style="width:90%">Checkout</button></center>
+                                    </div>
+                                </div>
                     </div>
                </div>
             </div>
@@ -89,19 +133,4 @@
     </div>
             </div>
         </div>
-    @section Scripts
-    {
-        <script> 
-            function ExtractValue()
-                    {
-                            $("select").change(function(){
-                        var id = $(this).attr("id");
-                        var _value = document.getElementById(id).value;
-                        document.getElementById("QuantityIn{"+id+"}").value=_value;
-                        console.log(id);
-                         console.log(_value);
-                        });
-                    }
-        </script>
-    }
 </div>

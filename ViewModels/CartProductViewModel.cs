@@ -13,5 +13,6 @@ namespace Spark.ViewModels
         public List<Product> products { get; set; }
         public int quantity { get; set; }//To send product quantity from the view to the controller ONLY
         public List<SelectListItem> Quantity { get; set; }
+        public Dictionary<Product, double> ProductQuantity { get; set; }
     }
 }

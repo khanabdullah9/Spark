@@ -12,6 +12,7 @@ namespace Spark.Models
         public string CartId { get; set; }
         public Cart Cart { get; set; }
         public List<Product> products { get; set; }
+        public Dictionary<Product, double> ProductQuantity { get; set; }//string: ProductId -> Id of the product in the Cart//int: quantity -> quantity of the each product in the Cart
 
     }
 }
